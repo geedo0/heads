@@ -24,7 +24,14 @@ recovery() {
 	exec /bin/ash
 }
 
-
 pcrs() {
 	head -7 /sys/class/tpm/tpm0/pcrs
+}
+
+get_nics() {
+  ifconfig -a | grep 'eth[0-9]' | awk '{print $1}'
+}
+
+get_running_nic() {
+	ifconfig | grep -B 2 'UP BROADCAST RUNNING MULTICAST' | grep eth | awk '{print $1}'
 }

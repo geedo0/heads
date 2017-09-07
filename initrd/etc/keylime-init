@@ -1,9 +1,21 @@
 #!/bin/sh
-# Bring up the x230's NIC, get a DHCP address, and invoke keylime
 
 . /etc/functions
 
-udhcpc -n -v
+# Bring all the nics up
+for nic in $(get_nics); do
+  ifconfig ${nic} up
+done
+
+# Busy poll on a link being detected
+while [ "$(get_running_nic)" = '' ]; do
+  sleep 1
+done
+
+# Busy poll on DHCP success.
+while ! udhcpc -n -v -i $(get_running_nic); do
+  sleep 1
+done
 
 mkdir /newlib
 cp /lib/libz.so.1 /newlib/.

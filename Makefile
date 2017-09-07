@@ -16,6 +16,8 @@ BUILD_LOG := $(shell [ -d "$(log_dir)" ] || mkdir -p "$(log_dir)")
 # Timestamps should be in ISO format
 DATE=`date --rfc-3339=seconds`
 
+V=verbose
+
 # If V is set in the environment, do not redirect the tee
 # command to /dev/null.
 ifeq "$V" ""
